@@ -1,0 +1,26 @@
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:${MEALIE_VERSION:-v3.16.0}
+    restart: unless-stopped
+    expose:
+      - "9000"
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      ALLOW_SIGNUP: ${ALLOW_SIGNUP:-false}
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      TZ: ${TZ:-Australia/Brisbane}
+      BASE_URL: ${BASE_URL}
+      DEFAULT_EMAIL: ${DEFAULT_EMAIL}
+      DEFAULT_GROUP: ${DEFAULT_GROUP:-Home}
+      DEFAULT_HOUSEHOLD: ${DEFAULT_HOUSEHOLD:-Home}
+    networks:
+      - dokploy-network
+
+volumes:
+  mealie-data:
+
+networks:
+  dokploy-network:
+    external: true
